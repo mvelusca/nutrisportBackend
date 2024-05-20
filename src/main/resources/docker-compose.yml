@@ -1,0 +1,35 @@
+version: '3.9'
+services:
+  mysql:
+    container_name: mysql-database
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Montreal7.
+      MYSQL_DATABASE: nutrisportDB
+      MYSQL_USER: root
+    volumes:
+      - mysql:/data/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - nutrisport-network
+    restart: unless-stopped
+  mail-dev:
+    container_name: mail-dev
+    image: maildev/maildev
+    ports:
+      - 1025:1025
+      - 1080:1080
+    networks:
+      - nutrisport-network
+
+networks:
+  nutrisport-network:
+    name: nutrisport-network
+    driver: bridge
+
+volumes:
+  mysql:
+    driver: local
+
+
