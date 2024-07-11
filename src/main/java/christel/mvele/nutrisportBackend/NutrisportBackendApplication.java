@@ -25,10 +25,10 @@ public class NutrisportBackendApplication {
 	@Bean
 	public CommandLineRunner runner(RoleRepository roleRepository){
 		return args -> {
-           if(roleRepository.findByName("USER").isEmpty()){
+           if(roleRepository.findByName("ADMIN").isEmpty()){
 			   roleRepository.save(
 					   Role.builder()
-							   .name("USER")
+							   .name("ADMIN")
 							   .createdDate(LocalDate.now())
 							   .build());
 
