@@ -33,6 +33,15 @@ public class NutrisportBackendApplication {
 							   .build());
 
 		   }
+
+			if(roleRepository.findByName("COACH").isEmpty()){
+				roleRepository.save(
+						Role.builder()
+								.name("COACH")
+								.createdDate(LocalDate.now())
+								.build());
+
+			}
         };
 	}
 
