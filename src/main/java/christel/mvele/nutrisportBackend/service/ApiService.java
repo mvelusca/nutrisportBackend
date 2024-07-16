@@ -20,6 +20,7 @@ public class ApiService {
         List<Utilisateur> users = (List<Utilisateur>) utilisateurRepository.findAll();
         return users.stream()
                 .map(user -> Utilisateur.builder()
+                        .id(user.getId())
                         .nom(user.getNom())
                         .prenom(user.getPrenom())
                         .mail(user.getMail())
