@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,5 +32,17 @@ public class ApiService {
                 .collect(Collectors.toList());
     }
 
+    public Utilisateur updateUser(Long id, Utilisateur updatedUser) {
+        Optional<Utilisateur> existingUserOptional = utilisateurRepository.findById(updatedUser.getId());
+        if (existingUserOptional.isPresent()) {
+            Utilisateur existingUser = existingUserOptional.get();
+            existingUser.setId(updatedUser.getId());
+            existingUser.setNom(updatedUser.getNom());
+            existingUser.setMail(updatedUser.getMail());
+            return utilisateurRepository.save(existingUser);
+        } else {
+            throw new RuntimeException("User not found with id " + id);
+        }
+    }
 
 }

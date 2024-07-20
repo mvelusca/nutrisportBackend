@@ -1,6 +1,8 @@
 package christel.mvele.nutrisportBackend.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -62,13 +64,26 @@ public class Utilisateur implements UserDetails, Principal {
     private List<Role> roles;
 
 
+    @JsonSerialize(using = GrantedAuthoritySerializer.class)
+    @JsonDeserialize(using = GrantedAuthorityDeserializer.class)
+    private Collection<? extends GrantedAuthority> authorities;
+
+    /**
+     * This method retrieves the authorities associated with the user.
+     * If authorities have not been set, it populates them by mapping the user's roles to {@link SimpleGrantedAuthority} instances.
+     *
+     * @return a collection of {@link GrantedAuthority} objects representing the user's authorities
+     */
     //gestion des rôles
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles
-                .stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName()))
-                .collect(Collectors.toList());
+        if (authorities == null) {
+            authorities = this.roles
+                    .stream()
+                    .map(role -> new SimpleGrantedAuthority(role.getName()))
+                    .collect(Collectors.toList());
+        }
+        return authorities;
     }
 
 
@@ -115,3 +130,5 @@ public class Utilisateur implements UserDetails, Principal {
         return this.nom + " " + this.prenom;
     }
 }
+
+

@@ -6,9 +6,7 @@ import christel.mvele.nutrisportBackend.service.ApiService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,4 +22,11 @@ public class UserController {
         List<Utilisateur> users = apiService.getAllUsers();
         return ResponseEntity.ok(users);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Utilisateur> updateUser(@PathVariable Long id, @RequestBody Utilisateur updatedUser) {
+        Utilisateur user = apiService.updateUser(id, updatedUser);
+        return ResponseEntity.ok(user);
+    }
+
 }

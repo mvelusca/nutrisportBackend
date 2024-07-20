@@ -34,6 +34,12 @@ public class JwtService {
         return claimResolver.apply(claims);
     }
 
+    /**
+     Extracts all claims from the provided JWT token.
+     @param token The JWT token to extract claims from.
+     @return The extracted claims as a {@link Claims} object.
+     This method uses the JWT parser builder to parse the provided JWT token and extract its claims. It sets the signing key to the one obtained from the {@link #getSignInKey()} method. Once the token is parsed, the method retrieves and returns the claims as a {@link Claims} object.
+     */
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                .setSigningKey(getSignInKey())
