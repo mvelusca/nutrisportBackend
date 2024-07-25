@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -108,7 +111,15 @@ public class ApiService {
                     .build();
             return utilisateurRepository.save(newUser);
         }
-        //return utilisateurRepository.save(newUser);
+    }
+
+    public Page<Utilisateur> getUsersPage(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return utilisateurRepository.findAll(pageable);
+    }
+
+    public List<Utilisateur> searchUsers(String query) {
+        return utilisateurRepository.findByNomContainingIgnoreCaseOrPrenomContainingIgnoreCaseOrMailContainingIgnoreCase(query, query, query);
     }
 
 }

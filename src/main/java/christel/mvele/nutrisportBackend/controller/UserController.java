@@ -5,6 +5,7 @@ import christel.mvele.nutrisportBackend.model.Utilisateur;
 import christel.mvele.nutrisportBackend.service.ApiService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,6 +60,20 @@ public class UserController {
     public ResponseEntity<Utilisateur> addUser(@RequestBody Utilisateur newUser) {
         Utilisateur user = apiService.addUser(newUser);
         return ResponseEntity.status(201).body(user);
+    }
+
+    @GetMapping("/users/paginate")
+    public ResponseEntity<Page<Utilisateur>> getUsersPage(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Page<Utilisateur> usersPage = apiService.getUsersPage(page, size);
+        return ResponseEntity.ok(usersPage);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Utilisateur>> searchUsers(@RequestParam String query) {
+        List<Utilisateur> users = apiService.searchUsers(query);
+        return ResponseEntity.ok(users);
     }
 
 }
