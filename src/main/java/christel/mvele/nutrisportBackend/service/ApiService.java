@@ -58,10 +58,21 @@ public class ApiService {
     public Utilisateur updateUser(Long id, Utilisateur updatedUser) {
         Optional<Utilisateur> existingUserOptional = utilisateurRepository.findById(updatedUser.getId());
         if (existingUserOptional.isPresent()) {
+
             Utilisateur existingUser = existingUserOptional.get();
-            existingUser.setId(updatedUser.getId());
             existingUser.setNom(updatedUser.getNom());
+            existingUser.setPrenom(updatedUser.getPrenom());
             existingUser.setMail(updatedUser.getMail());
+            existingUser.setUpdatedDate(LocalDate.now());
+            if (updatedUser.getMdp() != null && !updatedUser.getMdp().isEmpty()) {
+                existingUser.setMdp(passwordEncoder.encode(updatedUser.getMdp()));
+            }
+            existingUser.setRoles(updatedUser.getRoles());
+            existingUser.setBio(updatedUser.getBio());
+            existingUser.setPhoto(updatedUser.getPhoto());
+            existingUser.setNaissance(updatedUser.getNaissance());
+            existingUser.setLocalisation(updatedUser.getLocalisation());
+
             return utilisateurRepository.save(existingUser);
         } else {
             throw new RuntimeException("User not found with id " + id);
@@ -120,6 +131,14 @@ public class ApiService {
 
     public List<Utilisateur> searchUsers(String query) {
         return utilisateurRepository.findByNomContainingIgnoreCaseOrPrenomContainingIgnoreCaseOrMailContainingIgnoreCase(query, query, query);
+    }
+
+    public Optional<Utilisateur> getUserByMail(String mail) {
+        return utilisateurRepository.findByMail(mail);
+    }
+
+    public Optional<Utilisateur> getUserById(Integer id) {
+        return utilisateurRepository.findById(id);
     }
 
 }

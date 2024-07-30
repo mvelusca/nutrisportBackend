@@ -3,13 +3,13 @@ package christel.mvele.nutrisportBackend.controller;
 
 import christel.mvele.nutrisportBackend.model.Utilisateur;
 import christel.mvele.nutrisportBackend.service.ApiService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -74,6 +74,20 @@ public class UserController {
     public ResponseEntity<List<Utilisateur>> searchUsers(@RequestParam String query) {
         List<Utilisateur> users = apiService.searchUsers(query);
         return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Utilisateur> getUserById(@PathVariable Integer id) {
+        Optional<Utilisateur> userOptional = apiService.getUserById(id);
+        return userOptional.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/mail/{mail}")
+    public ResponseEntity<Utilisateur> getUserByMail(@PathVariable String mail) {
+        Optional<Utilisateur> userOptional = apiService.getUserByMail(mail);
+        return userOptional.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 }

@@ -129,6 +129,7 @@ public class Utilisateur implements UserDetails, Principal {
     public String fullName(){
         return this.nom + " " + this.prenom;
     }
+
 }
 
 
