@@ -1,2 +1,4 @@
-package christel.mvele.nutrisportBackend.model;public class RecetteFavorite {
+package christel.mvele.nutrisportBackend.model;
+
+public class RecetteFavorite {
 }

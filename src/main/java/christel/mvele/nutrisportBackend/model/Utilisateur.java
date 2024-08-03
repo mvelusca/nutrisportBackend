@@ -59,7 +59,7 @@ public class Utilisateur implements UserDetails, Principal {
     @Column(insertable = false)
     private LocalDate updatedDate;
 
-    //un utilisateur a un role
+    //un utilisateur a plusieurs role
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
 

@@ -1,6 +1,10 @@
 package christel.mvele.nutrisportBackend;
 
+import christel.mvele.nutrisportBackend.model.Aliment;
+import christel.mvele.nutrisportBackend.model.Recette;
 import christel.mvele.nutrisportBackend.model.Role;
+import christel.mvele.nutrisportBackend.repository.AlimentRepository;
+import christel.mvele.nutrisportBackend.repository.RecetteRepository;
 import christel.mvele.nutrisportBackend.repository.RoleRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -23,7 +27,9 @@ public class NutrisportBackendApplication {
 	}
 
 	@Bean
-	public CommandLineRunner runner(RoleRepository roleRepository){
+	public CommandLineRunner runner(RoleRepository roleRepository,
+									RecetteRepository recetteRepository,
+									AlimentRepository alimentRepository){
 		return args -> {
            if(roleRepository.findByName("ADMIN").isEmpty()){
 			   roleRepository.save(
@@ -39,6 +45,26 @@ public class NutrisportBackendApplication {
 						Role.builder()
 								.name("COACH")
 								.createdDate(LocalDate.now())
+								.build());
+
+			}
+
+			if(recetteRepository.findByNom("AAA").isEmpty()){
+				recetteRepository.save(
+						Recette.builder()
+								.nom("AAA")
+								.description("AAA")
+								.build());
+
+			}
+
+			if(alimentRepository.findByNom("BBB").isEmpty()){
+				alimentRepository.save(
+						Aliment.builder()
+								.nom("BBB")
+								.gras(1.0)
+								.proteines(13.7)
+								.glucides(5.54)
 								.build());
 
 			}
