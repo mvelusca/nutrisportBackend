@@ -63,6 +63,22 @@ public class Utilisateur implements UserDetails, Principal {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "suggerer", // Nom de la table de jointure
+            joinColumns = @JoinColumn(name = "utilisateur_id"), // Colonne de jointure pour la table Utilisateur
+            inverseJoinColumns = @JoinColumn(name = "recette_id") // Colonne de jointure pour la table Recette
+    )
+    private List<Recette> recettes;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "allergique", // Nom de la table de jointure
+            joinColumns = @JoinColumn(name = "aliment_id"), // Colonne de jointure pour la table Aliment
+            inverseJoinColumns = @JoinColumn(name = "utilisateur_id") // Colonne de jointure pour la table Utilisateur
+    )
+    private List<Aliment> aliments;
+
 
     @JsonSerialize(using = GrantedAuthoritySerializer.class)
     @JsonDeserialize(using = GrantedAuthorityDeserializer.class)

@@ -1,5 +1,7 @@
 package christel.mvele.nutrisportBackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,7 +24,15 @@ public class Recette {
 
     private String description;
 
-    //une recette a plusieurs aliments
-    @ManyToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "recette", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<RecetteFavorite> recetteFavorites;
+
+    @ManyToMany(mappedBy = "recettes", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Utilisateur> utilisateurs;
+
+    @ManyToMany(mappedBy = "recettes", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Aliment> aliments;
 }
